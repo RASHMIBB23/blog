@@ -45,7 +45,6 @@ const register = async (req, res) => {
         email: user.email,
         bio: user.bio,
         avatar: user.avatar,
-        role: user.role,
         createdAt: user.createdAt,
       },
     });
@@ -84,14 +83,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Check if account is active
-    if (!user.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: "Account is deactivated",
-      });
-    }
-
     // Generate token
     const token = generateToken(user._id);
 
@@ -104,7 +95,6 @@ const login = async (req, res) => {
         email: user.email,
         bio: user.bio,
         avatar: user.avatar,
-        role: user.role,
         createdAt: user.createdAt,
       },
     });
@@ -131,7 +121,6 @@ const getMe = async (req, res) => {
         email: user.email,
         bio: user.bio,
         avatar: user.avatar,
-        role: user.role,
         createdAt: user.createdAt,
       },
     });
@@ -174,8 +163,6 @@ const updateProfile = async (req, res) => {
         email: user.email,
         bio: user.bio,
         avatar: user.avatar,
-        role: user.role,
-        createdAt: user.createdAt,
       },
     });
   } catch (error) {
