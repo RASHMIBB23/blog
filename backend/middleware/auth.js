@@ -1,20 +1,28 @@
-const express = require("express");
-const {
-  register,
-  login,
-  getMe,
-  updateProfile,
-} = require("../controllers/authController");
-const { protect } = require("../middleware/auth");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-const router = express.Router();
+const protect = async (req, res, next) => {
+  let token;
 
-// Public routes
-router.post("/register", register);
-router.post("/login", login);
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    try {
+      token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id).select("-password");
+      next();
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authorized" });
+    }
+  }
 
-// Protected routes
-router.get("/me", protect, getMe);
-router.put("/profile", protect, updateProfile);
+  if (!token) {
+    return res.status(401).json({ success: false, message: "No token" });
+  }
+};
 
-module.exports = router;
+module.exports = { protect };
