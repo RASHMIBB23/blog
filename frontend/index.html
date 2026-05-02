@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlogHub - Share Your Stories</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-feather-alt"></i>
+          <span>BlogHub</span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+          <a href="#" class="nav-link" data-page="home">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <a
+            href="#"
+            class="nav-link"
+            data-page="create"
+            id="createNav"
+            style="display: none"
+          >
+            <i class="fas fa-plus-circle"></i> Create Post
+          </a>
+          <a
+            href="#"
+            class="nav-link"
+            data-page="dashboard"
+            id="dashboardNav"
+            style="display: none"
+          >
+            <i class="fas fa-chart-line"></i> Dashboard
+          </a>
+          <a
+            href="#"
+            class="nav-link"
+            data-page="profile"
+            id="profileNav"
+            style="display: none"
+          >
+            <i class="fas fa-user"></i> Profile
+          </a>
+        </div>
+        <div class="nav-auth">
+          <button class="btn-outline" id="loginBtn">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+          <button class="btn-primary" id="registerBtn">
+            <i class="fas fa-user-plus"></i> Register
+          </button>
+          <button class="btn-outline" id="logoutBtn" style="display: none">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Home Page -->
+      <div id="homePage" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="hero-content">
+            <h1>Welcome to BlogHub</h1>
+            <p>Share your thoughts, stories, and ideas with the world</p>
+            <div class="search-container">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Search blog posts..."
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Categories -->
+        <div class="categories">
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="technology">
+            Technology
+          </button>
+          <button class="category-btn" data-category="lifestyle">
+            Lifestyle
+          </button>
+          <button class="category-btn" data-category="travel">Travel</button>
+          <button class="category-btn" data-category="food">Food</button>
+          <button class="category-btn" data-category="business">
+            Business
+          </button>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-section">
+          <div class="section-header">
+            <h2>Latest Stories</h2>
+            <div class="sort-options">
+              <select id="sortSelect">
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+                <option value="popular">Most Liked</option>
+              </select>
+            </div>
+          </div>
+          <div class="posts-grid" id="postsGrid">
+            <!-- Posts will be loaded here -->
+          </div>
+          <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading posts...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Post Page -->
+      <div id="createPage" class="page">
+        <div class="create-post-container">
+          <h2><i class="fas fa-pen-fancy"></i> Create New Post</h2>
+          <form id="createPostForm">
+            <div class="form-group">
+              <label for="postTitle">Post Title</label>
+              <input
+                type="text"
+                id="postTitle"
+                placeholder="Enter an amazing title..."
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="postCategory">Category</label>
+              <select id="postCategory" required>
+                <option value="">Select category</option>
+                <option value="technology">Technology</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="travel">Travel</option>
+                <option value="food">Food</option>
+                <option value="business">Business</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="postImage">Featured Image URL (optional)</label>
+              <input
+                type="url"
+                id="postImage"
+                placeholder="https://example.com/image.jpg"
+              />
+            </div>
+            <div class="form-group">
+              <label for="postContent">Content</label>
+              <textarea
+                id="postContent"
+                rows="12"
+                placeholder="Write your story here..."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="postTags">Tags (comma separated)</label>
+              <input
+                type="text"
+                id="postTags"
+                placeholder="e.g., coding, tips, tutorial"
+              />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" onclick="clearForm()">
+                Clear
+              </button>
+              <button type="submit" class="btn-primary">Publish Post</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div id="dashboardPage" class="page">
+        <div class="dashboard-container">
+          <div class="dashboard-stats">
+            <div class="stat-card">
+              <i class="fas fa-file-alt"></i>
+              <div class="stat-info">
+                <h3 id="totalPosts">0</h3>
+                <p>Total Posts</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-heart"></i>
+              <div class="stat-info">
+                <h3 id="totalLikes">0</h3>
+                <p>Total Likes</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-comment"></i>
+              <div class="stat-info">
+                <h3 id="totalComments">0</h3>
+                <p>Total Comments</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-eye"></i>
+              <div class="stat-info">
+                <h3 id="totalViews">0</h3>
+                <p>Total Views</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-header">
+            <h2><i class="fas fa-edit"></i> Your Posts</h2>
+            <button class="btn-primary" onclick="showPage('create')">
+              <i class="fas fa-plus"></i> New Post
+            </button>
+          </div>
+          <div id="userPostsGrid" class="user-posts-grid"></div>
+        </div>
+      </div>
+
+      <!-- Profile Page -->
+      <div id="profilePage" class="page">
+        <div class="profile-container">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+              <h2 id="profileName"></h2>
+              <p id="profileEmail"></p>
+              <p id="profileJoinDate"></p>
+            </div>
+            <button class="btn-secondary" onclick="editProfile()">
+              <i class="fas fa-edit"></i> Edit Profile
+            </button>
+          </div>
+          <div class="profile-stats">
+            <div class="stat">
+              <span class="stat-value" id="profilePosts">0</span>
+              <span class="stat-label">Posts</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="profileLikes">0</span>
+              <span class="stat-label">Likes Received</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="profileComments">0</span>
+              <span class="stat-label">Comments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth Modals -->
+      <!-- Login Modal -->
+      <div id="loginModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <span class="close">&times;</span>
+          </div>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email Address</label>
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn-primary btn-block">Login</button>
+            <p class="modal-footer-text">
+              Don't have an account?
+              <a href="#" onclick="switchToRegister()">Register here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div id="registerModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> Register</h2>
+            <span class="close">&times;</span>
+          </div>
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="regName">Full Name</label>
+              <input
+                type="text"
+                id="regName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address</label>
+              <input
+                type="email"
+                id="regEmail"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <input
+                type="password"
+                id="regPassword"
+                placeholder="Create a password (min 6 characters)"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="regConfirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="regConfirmPassword"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn-primary btn-block">
+              Register
+            </button>
+            <p class="modal-footer-text">
+              Already have an account?
+              <a href="#" onclick="switchToLogin()">Login here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Post Detail Modal -->
+      <div id="postDetailModal" class="modal">
+        <div class="modal-content modal-large">
+          <div class="modal-header">
+            <h2 id="detailTitle"></h2>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div id="detailContent"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Profile Modal -->
+      <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Edit Profile</h2>
+            <span class="close">&times;</span>
+          </div>
+          <form id="editProfileForm">
+            <div class="form-group">
+              <label for="editName">Full Name</label>
+              <input type="text" id="editName" required />
+            </div>
+            <div class="form-group">
+              <label for="editBio">Bio</label>
+              <textarea
+                id="editBio"
+                rows="4"
+                placeholder="Tell us about yourself..."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="editAvatar">Avatar URL</label>
+              <input
+                type="url"
+                id="editAvatar"
+                placeholder="https://example.com/avatar.jpg"
+              />
+            </div>
+            <button type="submit" class="btn-primary btn-block">
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Comment Modal -->
+      <div id="commentModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Add Comment</h2>
+            <span class="close">&times;</span>
+          </div>
+          <form id="commentForm">
+            <div class="form-group">
+              <label for="commentText">Your Comment</label>
+              <textarea
+                id="commentText"
+                rows="4"
+                placeholder="Share your thoughts..."
+              ></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-block">
+              Post Comment
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>BlogHub</h3>
+          <p>Share your stories with the world</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <a href="#" onclick="showPage('home')">Home</a>
+          <a href="#" onclick="showPage('create')">Create Post</a>
+          <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 BlogHub. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
